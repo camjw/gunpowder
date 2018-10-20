@@ -1,0 +1,24 @@
+{
+  "name": "gunpowder",
+  "version": "1.0.0",
+  "description": "basic unit testing framework for javascript",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/camjw/gunpowder.git"
+  },
+  "keywords": [
+    "javascript",
+    "testing",
+    "framework"
+  ],
+  "author": "Cameron Whitehead",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/camjw/gunpowder/issues"
+  },
+  "homepage": "https://github.com/camjw/gunpowder#readme"
+}
