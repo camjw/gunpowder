@@ -10,7 +10,6 @@ const repeat = (str, n) => Array(n).join(str);
 const indent = n => repeat('  ', n);
 const indentLines = (str, n) => indent(n) + str.replace(/\n/g, `\n${indent(n)}`);
 
-// Runs every beforeEach callback in the stack
 const runEveryAfterEach = () => {
   afterEachStack.forEach((level) => level.forEach(cb => cb()));
 };
@@ -21,7 +20,6 @@ const runEveryBeforeEach = () => {
 
 const summary = { success: 0, fail: 0, disabled: 0 };
 
-// The stack of beforeEach and afterEach callbacks
 const beforeEachStack = [ [] ];
 const afterEachStack = [ [] ];
 
