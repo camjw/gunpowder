@@ -1,6 +1,6 @@
 {
   "name": "gunpowder",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "basic unit testing framework for javascript",
   "main": "src/index.js",
   "scripts": {
