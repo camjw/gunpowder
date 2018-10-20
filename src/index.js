@@ -38,17 +38,38 @@ const collection = (title, cb) => {
   afterEachStack.pop()
 };
 
+waitsForAndRuns = function(escapeFunction, runFunction, escapeTime=5000) {
+  // check the escapeFunction every millisecond so as soon as it is met we can escape the function
+  let interval = setInterval(function() {
+    if (escapeFunction()) {
+      clearMe();
+      runFunction();
+    }
+  }, 1);
+
+  // in case we never reach the escapeFunction, we will time out
+  // at the escapeTime
+  let timeOut = setTimeout(function() {
+    clearMe();
+    runFunction();
+  }, escapeTime);
+
+  // clear the interval and the timeout
+  function clearMe(){
+    clearInterval(interval);
+    clearTimeout(timeOut);
+  }
+};
+
 const runAsync = (block) => {
-  return function(){
-    var done = false;
-    var complete = function(){ done = true; };
+  return function() {
+    let done = false;
+    let complete = function() { done = true; };
 
-    runs(function(){
-      block(complete);
-    });
-
-    waitsFor(function(){
+    waitsForAndRuns(function() {
       return done;
+    }, function() {
+      block(complete);
     });
   };
 }
@@ -58,9 +79,6 @@ function AsyncTest(spec){
   }
 
 AsyncTest.prototype.ensure = function(description, block){
-  // For some reason, `it` is not attached to the current
-  // test suite, so it has to be called from the global
-  // context.
   ensure(description, runAsync(block));
 };
 
@@ -120,6 +138,7 @@ const afterEach = (cb) => {
 };
 
 const options = { assert, ensure, xensure, end, collection, beforeEach,
-                  beforeAll, afterAll, afterEach, Blank, runAsync, AsyncTest };
+                  beforeAll, afterAll, afterEach, Blank, runAsync, AsyncTest,
+                  waitsForAndRuns };
 
 module.exports = Object.assign(gunpowder, options);
