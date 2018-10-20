@@ -38,6 +38,33 @@ const collection = (title, cb) => {
   afterEachStack.pop()
 };
 
+const runAsync = (block) => {
+  return function(){
+    var done = false;
+    var complete = function(){ done = true; };
+
+    runs(function(){
+      block(complete);
+    });
+
+    waitsFor(function(){
+      return done;
+    });
+  };
+}
+
+function AsyncTest(spec){
+    this.spec = spec;
+  }
+
+AsyncTest.prototype.ensure = function(description, block){
+  // For some reason, `it` is not attached to the current
+  // test suite, so it has to be called from the global
+  // context.
+  ensure(description, runAsync(block));
+};
+
+
 const ensure = (title, cb) => {
   runEveryBeforeEach()
 
@@ -93,6 +120,6 @@ const afterEach = (cb) => {
 };
 
 const options = { assert, ensure, xensure, end, collection, beforeEach,
-                  beforeAll, afterAll, afterEach, Blank };
+                  beforeAll, afterAll, afterEach, Blank, runAsync, AsyncTest };
 
 module.exports = Object.assign(gunpowder, options);
