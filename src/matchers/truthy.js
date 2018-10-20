@@ -1,5 +1,5 @@
 module.exports = (val) => {
   if (val) return true;
 
-  throw new Error(`The value is falsy.\nValue: ${val}`);
+  throw new Error(`The value is falsey.\nValue: ${val}`);
 };
